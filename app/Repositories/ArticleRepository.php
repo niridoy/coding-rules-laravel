@@ -3,40 +3,23 @@
 namespace App\Repositories;
 
 use App\Models\Article;
-use App\Services\ArticleService;
+use App\Contracts\ArticleInterface;
 
-class ArticleRepository extends ArticleService
+class ArticleRepository implements ArticleInterface
 {
-    public function all()
-    {
-        return Article::all();
-    }
-
-    public function store($data)
+    public function create($data): Article
     {
         return Article::create($data);
     }
 
-    public function update($id,$data)
+    public function update($article, $data): Article
     {
-        $article = Article::findOrFail($id)->udpate($data);
-        return $article;
+        return $article->udpate($data);
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
-        $article = Article::findOrFail($id)->delete($id);
-        return $article;
-    }
-
-    public function show($id)
-    {
-        return Article::findOrFail($id);
-    }
-
-    public function lastPublishedPost()
-    {
-        return Article::latest()->first();
+       Article::findOrFail($id)->delete($id);
     }
 
 }
